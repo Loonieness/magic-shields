@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2953098599331138377}
   - component: {fileID: 6544271089028463402}
-  - component: {fileID: 5051064588022013564}
+  - component: {fileID: 3955747766458466667}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -51,7 +51,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5051064588022013564
+--- !u!114 &3955747766458466667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 470057015995017794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 598538ea3efbf2944bd942700fda999a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -171,8 +171,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3326124659052040438}
   - component: {fileID: 7136918440966638086}
-  - component: {fileID: 4519612958097995103}
   - component: {fileID: 3476850716063549029}
+  - component: {fileID: 4272076344517563328}
   m_Layer: 0
   m_Name: MageTreads
   m_TagString: Untagged
@@ -248,32 +248,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4519612958097995103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3968348723692538239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 0
-  SyncPositionY: 0
-  SyncPositionZ: 0
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  InLocalSpace: 0
-  Interpolate: 1
 --- !u!61 &3476850716063549029
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -319,6 +293,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.75, y: 2.05}
   m_EdgeRadius: 0
+--- !u!114 &4272076344517563328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3968348723692538239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598538ea3efbf2944bd942700fda999a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 0
+  SyncPositionY: 0
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
 --- !u!1 &6715837644145344988
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1832059590805210335}
-  - component: {fileID: 109214211178436432}
+  - component: {fileID: 7565037573583266067}
   m_Layer: 0
   m_Name: TurretPivot
   m_TagString: Untagged
@@ -352,7 +352,7 @@ Transform:
   m_Father: {fileID: 2953098599331138377}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &109214211178436432
+--- !u!114 &7565037573583266067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6715837644145344988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 598538ea3efbf2944bd942700fda999a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 0
