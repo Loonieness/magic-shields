@@ -17,6 +17,10 @@ public class InputReader : ScriptableObject, IPlayerActions
     //action is a trigger and sets what happens if it activates. This one turns autofire on and off (bool)
     public event Action<bool> PrimaryFireEvent;
 
+    //since movement and shoot is just one trigger for movement, but aiming is always happening, it's best to just be a 
+    //variable instead of a continous event. More performatic
+    public Vector2 AimPosition { get; private set; }
+
     //references the Controls on the Input folder
     private Controls controls;
 
@@ -47,5 +51,10 @@ public class InputReader : ScriptableObject, IPlayerActions
             PrimaryFireEvent?.Invoke(false);
         }
         
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        AimPosition = context.ReadValue<Vector2>();
     }
 }
