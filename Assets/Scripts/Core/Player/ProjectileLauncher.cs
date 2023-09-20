@@ -13,11 +13,17 @@ public class ProjectileLauncher : NetworkBehaviour
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GameObject serverProjectilePrefab;
     [SerializeField] private GameObject clientProjectilePrefab;
+    [SerializeField] private GameObject muzzleFlash;
+    [SerializeField] private Collider2D playerCollider;
 
     [Header("Settings")]
     [SerializeField] private float projectileSpeed;
+    [SerializeField] private float fireRate;
+    [SerializeField] private float muzzleFlashDuration;
 
     private bool shouldFire;
+    private float previousFireTime;
+    private float muzzleFlashTimer;
 
     public override void OnNetworkSpawn(){
         if( !IsOwner ) { return; }
@@ -31,11 +37,27 @@ public class ProjectileLauncher : NetworkBehaviour
 
     private void Update()
     {
+        //needs to be done before checking if owner, everyone should see it
+        if(muzzleFlashTimer > 0f){
+            muzzleFlashTimer -= Time.deltaTime;
+            
+            if(muzzleFlashTimer <= 0f){
+            muzzleFlash.SetActive(false);
+            }
+        }
+
         if( !IsOwner ) { return; }
         if( !shouldFire ) { return; }
 
+        //if fireRate is 1, it can fire one bullet per second. 
+        //If the player fires at 25 seconds in game, it will wait 1 second to be bigger than Time.time to fire again
+        if(Time.time < (1 / fireRate) + previousFireTime){ return ;}
+
         PrimaryFireServerRpc(projectileSpawnPoint.position, projectileSpawnPoint.up);
         SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up);
+        
+        //this updates the time every time a bullet is fired
+        previousFireTime = Time.time;
     }
 
     private void HandlePrimaryFire(bool shouldFire){
@@ -53,6 +75,16 @@ public class ProjectileLauncher : NetworkBehaviour
 
             projectileInstance.transform.up = direction;
 
+            //so the player can't collide with it's own bullet
+            Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
+
+            //just to check if the bullet exists, so it can receive movement and speed
+            if(projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb)){
+                
+                rb.velocity = rb.transform.up * projectileSpeed;
+                
+            }
+
             //the serverRpc calls the ClientRpc to send the information to every client
             SpawnDummyProjectileClientRpc(spawnPos, direction);
     }
@@ -60,6 +92,11 @@ public class ProjectileLauncher : NetworkBehaviour
         //sends a message to all clients
         [ClientRpc]
         private void SpawnDummyProjectileClientRpc(Vector3 spawnPos, Vector3 direction){
+            //shows the explosion on the barrel
+            muzzleFlash.SetActive(true);
+            //times how much time the muzzle should be active, but a fixed time that will be countted down on update
+            muzzleFlashTimer = muzzleFlashDuration;
+
             //if we are the owner, there's no need to see the same object twice
             if( IsOwner ) { return; }
 
@@ -82,5 +119,15 @@ public class ProjectileLauncher : NetworkBehaviour
             Quaternion.identity);
 
             projectileInstance.transform.up = direction;
+
+            //so the player can't collide with it's own bullet
+            Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
+
+            //just to check if the bullet exists, so it can receive movement and speed
+            if(projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb)){
+                
+                rb.velocity = rb.transform.up * projectileSpeed;
+
+            }
     }
 }
