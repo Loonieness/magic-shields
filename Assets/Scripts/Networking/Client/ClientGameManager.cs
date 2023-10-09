@@ -1,12 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Services.Core;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //remove monobehavior because this is only going to be a C# class that we create an instance of in the client singleton
 public class ClientGameManager
 {
-    public async Task InitAsync() {
-        //authenticate player 
+
+    private const string MenuSceneName = "Menu";
+
+    public async Task<bool> InitAsync() {
+        await UnityServices.InitializeAsync();
+
+        AuthState authState = await AuthenticationWrapper.DoAuth();
+
+        if(authState == AuthState.Authenticated) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void GoToMenu(){
+        SceneManager.LoadScene(MenuSceneName);
     }
 }

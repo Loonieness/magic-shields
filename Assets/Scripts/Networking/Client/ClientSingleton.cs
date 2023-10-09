@@ -8,7 +8,7 @@ public class ClientSingleton : MonoBehaviour
 
     private static ClientSingleton instance;
 
-    private ClientGameManager gameManager;
+    public ClientGameManager GameManager { get; private set; }
 
     public static ClientSingleton Instance{
         //the get makes it only get things, and not set. It protects it
@@ -30,10 +30,10 @@ public class ClientSingleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public async Task CreateClient() {
-        gameManager = new ClientGameManager();
+    public async Task<bool> CreateClient() {
+        GameManager = new ClientGameManager();
 
-        await gameManager.InitAsync();
+        return await GameManager.InitAsync();
     }
 
 }
