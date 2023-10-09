@@ -10,6 +10,7 @@ public class ProjectileLauncher : NetworkBehaviour
     //hooked into the 'fire' action
     [SerializeField] private InputReader inputReader;
     //the bullet spawns' position at the end of the barrel, and it's decided its rotation to go forth. All is Transform
+    [SerializeField] private CoinCollector wallet;
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GameObject serverProjectilePrefab;
     [SerializeField] private GameObject clientProjectilePrefab;
@@ -20,9 +21,10 @@ public class ProjectileLauncher : NetworkBehaviour
     [SerializeField] private float projectileSpeed;
     [SerializeField] private float fireRate;
     [SerializeField] private float muzzleFlashDuration;
+    [SerializeField] private int costToFire;
 
     private bool shouldFire;
-    private float previousFireTime;
+    private float timer;
     private float muzzleFlashTimer;
 
     public override void OnNetworkSpawn(){
@@ -47,17 +49,26 @@ public class ProjectileLauncher : NetworkBehaviour
         }
 
         if( !IsOwner ) { return; }
+
+        //Ex: timer is 1. this method makes timer do a countdown, so 1 second, then turn timer into 0. 
+        //on the end of this function, timer resets and receives a number of seconds again
+        if(timer > 0) {
+            timer -= Time.deltaTime;
+        }
+
+   
+
         if( !shouldFire ) { return; }
 
-        //if fireRate is 1, it can fire one bullet per second. 
-        //If the player fires at 25 seconds in game, it will wait 1 second to be bigger than Time.time to fire again
-        if(Time.time < (1 / fireRate) + previousFireTime){ return ;}
+        if(timer > 0){ return ;}
+
+        if(wallet.TotalCoins.Value < costToFire) { return; }
 
         PrimaryFireServerRpc(projectileSpawnPoint.position, projectileSpawnPoint.up);
         SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up);
         
         //this updates the time every time a bullet is fired
-        previousFireTime = Time.time;
+        timer = 1 / fireRate;
     }
 
     private void HandlePrimaryFire(bool shouldFire){
@@ -68,6 +79,10 @@ public class ProjectileLauncher : NetworkBehaviour
     //Remote Procedural Call. Sends a message to server, server responds to client, continues
     [ServerRpc]
     private void PrimaryFireServerRpc(Vector3 spawnPos, Vector3 direction){
+        if(wallet.TotalCoins.Value < costToFire) { return; }
+
+        wallet.SpendCoins(costToFire);
+
         GameObject projectileInstance = Instantiate(
             serverProjectilePrefab, 
             spawnPos, 
