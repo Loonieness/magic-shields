@@ -50,14 +50,14 @@ public static class AuthenticationWrapper
             }
                 
             }
-            catch (AuthenticationException ex)
+            catch (AuthenticationException authException)
             {
-                Debug.LogError(ex);
+                Debug.LogError(authException);
                 AuthState = AuthState.Error;
             }
             //can happen if there's no connection or can't connect to server
-            catch (RequestFailedException exception){
-                Debug.LogError(exception);
+            catch (RequestFailedException RequestException){
+                Debug.LogError(RequestException);
                 AuthState = AuthState.Error;
             }
 
