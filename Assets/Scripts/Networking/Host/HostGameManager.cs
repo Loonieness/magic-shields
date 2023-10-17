@@ -10,7 +10,7 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//remove monobehavior because this is only going to be a C# class that we create an instance of in the client singleton
+//remove monobehavior because this is only going to be a C# class that we create an instance of in the host singleton
 public class HostGameManager
 {
     private string joinCode;
@@ -49,8 +49,8 @@ public class HostGameManager
 
         UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
 
-        //and here is all the info you need. The IP, the Port, the connection type UDP(user data protocol)
-        RelayServerData relayServerData = new RelayServerData(allocation, "udp");
+//and here is all the info you need. The IP, the Port, the connection type DTLS(Datagram Transport Layer Security)
+        RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
         transport.SetRelayServerData(relayServerData);
 
         NetworkManager.Singleton.StartHost();
