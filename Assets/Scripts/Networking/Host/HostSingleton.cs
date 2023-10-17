@@ -8,7 +8,7 @@ public class HostSingleton : MonoBehaviour
 
     private static HostSingleton instance;
 
-    private HostGameManager gameManager;
+    public HostGameManager GameManager { get; private set; }
 
     public static HostSingleton Instance{
         //the get makes it only get things, and not set. It protects it
@@ -31,7 +31,7 @@ public class HostSingleton : MonoBehaviour
     }
 
     public void CreateHost() {
-        gameManager = new HostGameManager();
+        GameManager = new HostGameManager();
     }
 
 }
