@@ -13,8 +13,8 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//remove monobehavior because this is only going to be a C# class that we create an instance of in the client singleton
-public class ClientGameManager
+
+public class ClientGameManager : IDisposable
 {
     private JoinAllocation allocation;
 
@@ -75,5 +75,10 @@ public class ClientGameManager
         NetworkManager.Singleton.StartClient();
         //the client doesn't need to start a scene, because the server will do it for them
         
+    }
+
+    public void Dispose()
+    {
+        networkClient?.Dispose();
     }
 }

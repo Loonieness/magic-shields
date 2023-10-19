@@ -16,7 +16,7 @@ using UnityEngine.SceneManagement;
 
 
 //remove monobehavior because this is only going to be a C# class that we create an instance of in the host singleton
-public class HostGameManager
+public class HostGameManager : IDisposable
 {
     private string joinCode;
     private string lobbyId;
@@ -122,5 +122,25 @@ public class HostGameManager
 
         }
 
+    }
+
+    public async void Dispose()
+    {
+        HostSingleton.Instance.StopCoroutine(nameof(HeartBeatLobby));
+
+        if(!string.IsNullOrEmpty(lobbyId)){
+            try
+            {
+                await Lobbies.Instance.DeleteLobbyAsync(lobbyId);
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+
+            lobbyId = string.Empty;
+        }
+
+        networkServer?.Dispose();
     }
 }

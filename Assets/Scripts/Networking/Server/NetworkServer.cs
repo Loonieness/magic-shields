@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkServer
+public class NetworkServer : IDisposable
 {
     //so we can restore locally whatever comes in the NetworkServer parameter
     private NetworkManager networkManager;
@@ -54,6 +54,19 @@ public class NetworkServer
             clientIdToAuth.Remove(clientId);
 
             authIdToUserData.Remove(authId);
+        }
+    }
+
+    public void Dispose()
+    {
+        if(networkManager == null){ return; }
+
+        networkManager.ConnectionApprovalCallback -= ApprovalCheck;
+        networkManager.OnClientDisconnectCallback -= OnClientDisconnect;
+        networkManager.OnServerStarted -= OnNetworkReady;
+
+        if(networkManager.IsListening){
+            networkManager.Shutdown();  
         }
     }
 }

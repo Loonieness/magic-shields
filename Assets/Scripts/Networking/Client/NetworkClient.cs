@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkClient 
+
+//IDispose is to have a Dispose method that cleans up things when the class is used. To shutdown cleanly
+public class NetworkClient : IDisposable
 {
      //so we can restore locally whatever comes in the NetworkServer parameter
     private NetworkManager networkManager;
@@ -38,5 +42,13 @@ public class NetworkClient
         }
 
 
+    }
+
+    //cleans up whatever this class does every time it is called
+    public void Dispose()
+    {   //unsubscribes the networkManager, not leaving traces when shuts down. The ClientGameManager uses this
+        if(networkManager != null){
+            networkManager.OnClientDisconnectCallback -= OnClientDisconnect;
+        }
     }
 }
