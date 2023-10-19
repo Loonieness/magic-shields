@@ -39,6 +39,9 @@ public class NetworkServer : IDisposable
 
         //this will let this all finish the connection with the server. If set False, it wouldn't connect
         response.Approved = true;
+        //makes the spawnpoint a "random" location
+        response.Position = SpawnPoint.GetRandomSpawnPos();
+        response.Rotation = Quaternion.identity;
         response.CreatePlayerObject = true;
     }
 
