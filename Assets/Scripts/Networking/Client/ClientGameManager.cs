@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
@@ -17,10 +18,16 @@ public class ClientGameManager
 {
     private JoinAllocation allocation;
 
+    private NetworkClient networkClient;
+
     private const string MenuSceneName = "Menu";
 
     public async Task<bool> InitAsync() {
         await UnityServices.InitializeAsync();
+
+        //this hooks up NetworkClient to when the host disconnects and the player is now a client obligatoryly
+        //this makes a client be able to go into a new game without having to reopen the whole build
+        networkClient = new NetworkClient(NetworkManager.Singleton);
 
         AuthState authState = await AuthenticationWrapper.DoAuth();
 
@@ -55,7 +62,8 @@ public class ClientGameManager
         transport.SetRelayServerData(relayServerData);
 
         UserData userData = new UserData{
-            userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name")
+            userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name"),
+            userAuthId = AuthenticationService.Instance.PlayerId
         };
 
         //transform the player's name into json, then into byte array, them send it to the server when connecting
