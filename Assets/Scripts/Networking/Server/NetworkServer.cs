@@ -57,6 +57,20 @@ public class NetworkServer : IDisposable
         }
     }
 
+    public UserData GetUserDataByClientId(ulong clientId){
+        //this is a way to get things from a dictionary. You TGV, then put what it tries to get, then what it gets 
+        //from it. Then, store it in a variable and does anything within the if. It gets the user by it's ID
+        if(clientIdToAuth.TryGetValue(clientId, out string authId)){
+            if(authIdToUserData.TryGetValue(authId, out UserData data)){
+                return data;
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
     public void Dispose()
     {
         if(networkManager == null){ return; }
