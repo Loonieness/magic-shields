@@ -14,7 +14,7 @@ public class RespawnHandler : NetworkBehaviour
         if(!IsServer) { return; }
 
         //a slow call. Will check everything in this scene and get back everything with this componente on it
-        Player[] players = FindObjectsOfType<Player>();
+        Player[] players = FindObjectsByType<Player>(FindObjectsSortMode.None);
         foreach (Player player in players)
         {
             HandlePlayerSpawned(player);
