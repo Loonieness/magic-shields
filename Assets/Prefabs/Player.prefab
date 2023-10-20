@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 5219059921639307316}
+  <Health>k__BackingField: {fileID: 5567764386191045419}
   ownerPriority: 15
   PlayerName:
     m_InternalValue:
@@ -268,7 +269,7 @@ MonoBehaviour:
   inputReader: {fileID: 11400000, guid: 160a9dd859f57b449bd0ac24e01fab5d, type: 2}
   bodyTransform: {fileID: 3326124659052040438}
   rb: {fileID: 5593616000546537340}
-  movementSpeed: 5
+  movementSpeed: 8
   turningRate: 270
 --- !u!114 &1077267940987608825
 MonoBehaviour:
@@ -304,7 +305,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 5439090660865666376}
   playerCollider: {fileID: 3476850716063549029}
   projectileSpeed: 30
-  fireRate: 0.75
+  fireRate: 1.5
   muzzleFlashDuration: 0.075
   costToFire: 5
 --- !u!114 &5567764386191045419
