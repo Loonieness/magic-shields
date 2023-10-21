@@ -9,6 +9,7 @@ public class Leaderboard : NetworkBehaviour
 {
     [SerializeField] private Transform leaderboardEntityHolder;
     [SerializeField] private LeaderboardEntityDisplay leaderboardEntityPrefab;
+    [SerializeField] private int entitiesToDisplay = 8;
 
     private NetworkList<LeaderboardEntityState> leaderboardEntities;
     private List<LeaderboardEntityDisplay> entityDisplays = new List<LeaderboardEntityDisplay>();
@@ -91,9 +92,30 @@ public class Leaderboard : NetworkBehaviour
                 displayToUpdate.UpdateCoins(changeEvent.Value.Coins);
             }
             break;
+        }
 
+        //makes sure the ones with more coins go to the top. If I wanted a ascending order, I'd swap x and y
+        entityDisplays.Sort((x, y) => y.Coins.CompareTo(x.Coins));
 
+        for (int i = 0; i < entityDisplays.Count; i++)
+        {
+            //already shows the correct descending order, but doesn't updates the text
+            entityDisplays[i].transform.SetSiblingIndex(i);
+            entityDisplays[i].UpdateText();
+            //-1 because, counting the 0, it would be 9 names instead of 8
+            entityDisplays[i].gameObject.SetActive(i <= entitiesToDisplay -1);
+        }
 
+        //references ourselves. The child representing us
+        LeaderboardEntityDisplay myDisplay =
+            entityDisplays.FirstOrDefault(x => x.ClientId == NetworkManager.Singleton.LocalClientId);
+
+        if(myDisplay != null){
+            //if I am beyond the eighth place, get the eighth place child and hides it. Put me instead
+            if(myDisplay.transform.GetSiblingIndex() >= entitiesToDisplay){
+                leaderboardEntityHolder.GetChild(entitiesToDisplay - 1).gameObject.SetActive(false);
+                myDisplay.gameObject.SetActive(true);
+            }
         }
     }
 
