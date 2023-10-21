@@ -13,6 +13,7 @@ public class Player : NetworkBehaviour
     
     //the "field" makes it appear on the editor. Without it, properties don't appear on the editor
     [field: SerializeField] public Health Health { get; private set; }
+    [field: SerializeField] public CoinCollector Wallet { get; private set; }
 
     [Header("Settings")]
     [SerializeField] private int ownerPriority = 15;

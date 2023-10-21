@@ -15,7 +15,7 @@ public class AplicationController : MonoBehaviour
         //makes this code persist as we change scenes
         DontDestroyOnLoad(gameObject);
 
-        //is this dedicated server? dedicated server don't need players or graphics rendering on them
+        //dedicated servers don't need players or graphics rendering on them
         await LaunchInMode(SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null);
     }
 
