@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 3765605087642433551, guid: 384b8510eec425f44877cdeb1af36db0, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7bfd0a0977e81b84a8f1d12195e5883a, type: 3}
+      objectReference: {fileID: 21300000, guid: e013595ba5266f249819bd3643bb597e, type: 3}
     - target: {fileID: 5835234149502679862, guid: 384b8510eec425f44877cdeb1af36db0, type: 3}
       propertyPath: m_Name
       value: BountyCoin

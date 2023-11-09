@@ -14,6 +14,7 @@ public class DealDamageOnContact : MonoBehaviour
         this.ownerClientId = ownerClientId;
    }
 
+    //so the player can't shoot itself
     private void OnTriggerEnter2D(Collider2D col) {
         if(col.attachedRigidbody == null) { return; }
 
